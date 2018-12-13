@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using InventoryService.Models;
 using InventoryService.Services;
@@ -28,14 +30,23 @@ namespace InventoryService.Controllers
         [Route("AddInventoryItems")]
         public ActionResult<InventoryItem> AddInventoryItems(InventoryItem items)
         {
-            var inventoryItems = _services.AddInvetoryItems(items);
-
-            if (inventoryItems == null)
+            try
             {
-                return NotFound();
+                var inventoryItems = _services.AddInvetoryItems(items);
+
+                if (inventoryItems == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(inventoryItems);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+                // TODO: log the error
             }
 
-            return Ok(inventoryItems);
 
         }
 
