@@ -19,7 +19,15 @@ namespace InventoryService.Services
         {
             var itemToAdd = new InventoryItem { Id = item.Id, Name = item.Name, Price = item.Price };
 
-            _inventoryItems.Add("ID:"+item.Id, itemToAdd);
+            try
+            {
+                _inventoryItems.Add("ID:" + item.Id, itemToAdd);
+            }
+            catch (Exception)
+            {
+                // TODO: log error
+                throw;
+            }         
 
 
             return item;
